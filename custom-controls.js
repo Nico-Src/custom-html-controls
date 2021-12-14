@@ -43,17 +43,6 @@ class ToggleSwitch extends HTMLElement{
     }
 }
 
-class MainContainer extends HTMLElement{
-    constructor(){
-        super();
-
-        var shadow = this.attachShadow({mode: 'open'});
-        var style = document.createElement('style');
-
-        shadow.appendChild(style);
-    }
-}
-
 class CustomSelect extends HTMLElement{
     constructor(){
         super();
@@ -149,4 +138,3 @@ class CustomSelect extends HTMLElement{
 
 customElements.define('toggle-switch',ToggleSwitch);
 customElements.define('custom-select',CustomSelect);
-customElements.define('main-container',MainContainer,{extends: 'div'});
