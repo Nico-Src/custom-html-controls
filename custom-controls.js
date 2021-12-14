@@ -136,5 +136,65 @@ class CustomSelect extends HTMLElement{
     }
 }
 
+class CustomRange extends HTMLElement{
+    constructor(){
+        super();
+
+        var shadow = this.attachShadow({mode: 'open'});
+        var style = document.createElement('style');
+
+        
+        var min = 0;
+        var max = 100;
+        var value = 0;
+        var thumbColor = '#202020';
+        var thumbHoverColor = '#000';
+        var type = "default";
+
+        if(this.getAttribute('min')) min = this.getAttribute('min');
+        if(this.getAttribute('max')) max = this.getAttribute('max');
+        if(this.getAttribute('value')) value = this.getAttribute('value');
+        if(this.getAttribute('thumb-color')) thumbColor = this.getAttribute('thumb-color');
+        if(this.getAttribute('thumb-hover-color')) thumbHoverColor = this.getAttribute('thumb-hover-color');
+        if(this.getAttribute('type')) type = this.getAttribute('type');
+
+        console.log("Range-Type: ",type);
+
+        var sliderAdjust = 0;
+        if(type === "indicator") sliderAdjust = 50;
+
+        this.style.display = "flex";
+        this.style.justifyContent = "center";
+        this.style.alignItems = "center";
+        style.innerHTML = '.slider {-webkit-appearance: none;position: relative;width: calc(100% - '+sliderAdjust+'px);height: 15px; border-radius: 6px; background: #909090;outline: none;opacity: 1;-webkit-transition: .4s;transition: all .4s;}';
+        style.innerHTML += '.slider::-webkit-slider-thumb {-webkit-appearance: none;position: relative;transition: all .4s ease; appearance: none; border-radius: 50%;width: 25px;height: 25px;background: '+thumbColor+';cursor: pointer;}';
+        style.innerHTML += '.slider::-webkit-slider-thumb:hover{background-color: '+thumbHoverColor+';}';
+        style.innerHTML += '.slider::-moz-range-thumb {width: 25px;height: 25px;background: #04AA6D;cursor: pointer;}';
+        if(type === "indicator") style.innerHTML += '.indicator {width: 50px; display: flex; justify-content: center; align-items: center; border-radius: 6px; margin-left: 5%;height: 25px;background: '+thumbColor+';color:white;cursor: pointer;}';
+
+        var slider = document.createElement('input');
+        slider.setAttribute('type','range');
+        slider.setAttribute('part','slider');
+        slider.setAttribute('class','slider');
+        slider.setAttribute('min',min);
+        slider.setAttribute('max',max);
+        slider.setAttribute('value',value);
+
+        var indicator = document.createElement('div');
+        indicator.setAttribute('part','indicator');
+        indicator.setAttribute('class','indicator');
+        indicator.innerHTML = value + "%";
+
+        slider.addEventListener('input',function(){
+            $(indicator).html(this.value+'%');
+        });
+
+        shadow.appendChild(style);
+        shadow.appendChild(slider);
+        if(type === "indicator") shadow.appendChild(indicator);
+    }
+}
+
 customElements.define('toggle-switch',ToggleSwitch);
 customElements.define('custom-select',CustomSelect);
+customElements.define('custom-range',CustomRange);
