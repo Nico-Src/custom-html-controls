@@ -53,7 +53,7 @@ class CustomSelect extends HTMLElement{
         var scrollBg = "#404040";
         var scrollThumbBg = "#909090";
         if(this.getAttribute('scroll-bg')) scrollBg = this.getAttribute('scroll-bg');
-        if(this.getAttribute('scroll-thumb-color')) scrollThumbBg = this.getAttribute('scroll-thumb-color');
+        if(this.getAttribute('scroll-thumb-bg')) scrollThumbBg = this.getAttribute('scroll-thumb-bg');
 
         style.innerHTML = '.wrapper{width: 300px;height: 40px;display: flex;justify-content: center;align-items: center;flex-direction: column;background-color: #ccc;border-radius: 6px;padding: 4px 8px 4px 8px;position: relative;}';
         style.innerHTML += '.wrapper .text-input{width: 100%;height: 96%;font-family: "Poppins", sans-serif;font-size: 16px;background-color: transparent;border: none;outline: none;transition: all .4s ease;}';
