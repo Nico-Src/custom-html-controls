@@ -216,7 +216,7 @@ class CustomTextField extends HTMLElement{
         wrapper.setAttribute('part','wrapper');
 
         var textInput = document.createElement('input');
-        textInput.setAttribute('type','text');
+        textInput.setAttribute('type',type);
         textInput.setAttribute('part','text-input');
         textInput.setAttribute('class','text-input');
 
