@@ -44,10 +44,18 @@
             .main .table .table-header{width: 100%;border-top-right-radius: 6px;border-top-left-radius: 6px;height: 35px;display:flex; justify-content: center; align-items: center;color: white;background-color: #505050;}
 
             custom-textfield{width: 90%; height: 40px;}
+            custom-textfield::part(line-bg){height: 2px;}
             custom-select{width:90%; height: 40px;}
+            custom-select::part(line-bg){height: 2px;}
             #styled-custom-textfield::part(wrapper){background-color: rgb(192, 236, 172);}
             #styled-custom-textfield::part(line-bg){background-color: transparent;}
             #styled-custom-textfield::part(line){background-color: rgb(52, 105, 52);}
+
+            #styled-custom-select::part(wrapper){background-color: rgb(192, 236, 172);}
+            #styled-custom-select::part(select-option){background-color: rgb(192, 236, 172); color: #505050;}
+            #styled-custom-select::part(select-option):hover{background-color: rgb(116, 182, 85);}
+            #styled-custom-select::part(line-bg){background-color: transparent;}
+            #styled-custom-select::part(line){background-color: rgb(52, 105, 52);}
         </style>
     </head>
     <body>
@@ -95,21 +103,39 @@
                         </div>
                     </div>
                     <div class="column">
-                        <div class="header">With Hint</div>
-                        <div class="content">
-                            <custom-textfield hint="Username..."></custom-textfield>
-                        </div>
-                    </div>
-                    <div class="column">
-                        <div class="header">Password With Hint</div>
-                        <div class="content">
-                            <custom-textfield hint="Password..." type="password"></custom-textfield>
-                        </div>
-                    </div>
-                    <div class="column">
                         <div class="header">Styled</div>
                         <div class="content">
-                            <custom-textfield id="styled-custom-textfield" hint="Password..." type="password"></custom-textfield>
+                            <custom-select id="styled-custom-select">
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Option 3</option>
+                            </custom-select>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">With Scrollbar</div>
+                        <div class="content">
+                            <custom-select>
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Option 3</option>
+                                <option>Option 4</option>
+                                <option>Option 5</option>
+                                <option>Option 6</option>
+                            </custom-select>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">With Styled Scrollbar</div>
+                        <div class="content">
+                            <custom-select id="styled-custom-select" scroll-bg="rgb(116, 182, 85)" scroll-thumb-bg="rgb(192, 236, 172)">
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Option 3</option>
+                                <option>Option 4</option>
+                                <option>Option 5</option>
+                                <option>Option 6</option>
+                            </custom-select>
                         </div>
                     </div>
                 </div>
