@@ -57,9 +57,9 @@ class CustomSelect extends HTMLElement{
 
         style.innerHTML = '.wrapper{width: 300px;height: 40px;display: flex;justify-content: center;align-items: center;flex-direction: column;background-color: #ccc;border-radius: 6px;padding: 4px 8px 4px 8px;position: relative;}';
         style.innerHTML += '.wrapper .text-input{width: 100%;height: 96%;font-family: "Poppins", sans-serif;font-size: 16px;background-color: transparent;border: none;outline: none;transition: all .4s ease;}';
-        style.innerHTML += '.wrapper .text-bottom-line{position: absolute;bottom: 6%;height: 1.5px;width: 96%;display: flex;justify-content: center;align-items: center;background-color: #959595;}';
-        style.innerHTML += '.wrapper .text-bottom-line .line{background-color: #303030;width: 0%;height: 100%;transition: all .4s ease;}';
-        style.innerHTML += '.wrapper .text-input:focus ~ .text-bottom-line .line{width: 100%;}';
+        style.innerHTML += '.wrapper .line-bg{position: absolute;bottom: 6%;height: 1.5px;width: 96%;display: flex;justify-content: center;align-items: center;background-color: #959595;}';
+        style.innerHTML += '.wrapper .line-bg .line{background-color: #303030;width: 0%;height: 100%;transition: all .4s ease;}';
+        style.innerHTML += '.wrapper .text-input:focus ~ .line-bg .line{width: 100%;}';
         style.innerHTML += '.wrapper .text-input:focus ~ .select-options{opacity: 1;transform: translateY(0);}';
         style.innerHTML += '.wrapper .select-option{width: 100%;transition: all .4s ease;height: 40px;display: flex;overflow:hidden;border-bottom: 2px solid #404040; justify-content: center; align-items: center; color: #fff;}';
         style.innerHTML += '.wrapper .select-option:last-child{border: none;}';
@@ -93,8 +93,8 @@ class CustomSelect extends HTMLElement{
         });
 
         var textBottomLine = document.createElement('div');
-        textBottomLine.setAttribute('class','text-bottom-line');
-        textBottomLine.setAttribute('part','text-bottom-line');
+        textBottomLine.setAttribute('class','line-bg');
+        textBottomLine.setAttribute('part','line-bg');
 
         var line = document.createElement('div');
         line.setAttribute('class','line');
@@ -142,7 +142,6 @@ class CustomRange extends HTMLElement{
 
         var shadow = this.attachShadow({mode: 'open'});
         var style = document.createElement('style');
-
         
         var min = 0;
         var max = 100;
@@ -195,6 +194,137 @@ class CustomRange extends HTMLElement{
     }
 }
 
+class CustomTextField extends HTMLElement{
+    constructor(){
+        super();
+
+        var shadow = this.attachShadow({mode: 'open'});
+        var style = document.createElement('style');
+
+        style.innerHTML = '.wrapper{width: 300px;height: 40px;display: flex;justify-content: center;align-items: center;flex-direction: column;background-color: #ccc;border-radius: 6px;padding: 4px 8px 4px 8px;position: relative;}';
+        style.innerHTML += '.wrapper .text-input{width: 100%;height: 96%;font-family: "Poppins", sans-serif;font-size: 16px;background-color: transparent;border: none;outline: none;transition: all .4s ease;}';
+        style.innerHTML += '.wrapper .line-bg{position: absolute;bottom: 6%;height: 1.5px;width: 96%;display: flex;justify-content: center;align-items: center;background-color: #959595;}';
+        style.innerHTML += '.wrapper .line-bg .line{background-color: #303030;width: 0%;height: 100%;transition: all .4s ease;}';
+        style.innerHTML += '.wrapper .text-input:focus ~ .line-bg .line{width: 100%;}';
+
+        var wrapper = document.createElement('div');
+        wrapper.setAttribute('class','wrapper');
+        wrapper.setAttribute('part','wrapper');
+
+        var textInput = document.createElement('input');
+        textInput.setAttribute('type','text');
+        textInput.setAttribute('part','text-input');
+        textInput.setAttribute('class','text-input');
+
+        var textBottomLine = document.createElement('div');
+        textBottomLine.setAttribute('class','line-bg');
+        textBottomLine.setAttribute('part','line-bg');
+
+        var line = document.createElement('div');
+        line.setAttribute('class','line');
+        line.setAttribute('part','line');
+
+        shadow.appendChild(wrapper);
+        shadow.appendChild(style);
+        wrapper.appendChild(textInput);
+        wrapper.appendChild(textBottomLine);
+        textBottomLine.appendChild(line);
+    }
+}
+
+class DropZone extends HTMLElement{
+    constructor(){
+        super();
+
+        var shadow = this.attachShadow({mode: 'open'});
+        var style = document.createElement('style');
+
+        var iconAttr = '<i class="bx bxs-file-blank"></i>';
+        var textAttr = 'Drag and Drop your files here...';
+        if(this.getAttribute('icon')) iconAttr = this.getAttribute('icon');
+        if(this.getAttribute('text')) textAttr = this.getAttribute('text');
+        style.innerHTML = '.drop-border{width: calc(100% - 20px);transition: all .4s ease;height: calc(100% - 20px);border-radius: 8px;border: 4.5px dotted white;display: flex;justify-content: center;align-items: center;flex-direction: column;}';
+        style.innerHTML += '.drop-border .icon{color: white;transition: all .4s ease;font-size: 38px;margin-bottom: 5px;}';
+        style.innerHTML += '.drop-border .text{color: #EEE;transition: all .4s ease;font-size: 14px;max-width: 80%;text-align: center;}';
+        style.innerHTML += '.file-input{position: absolute;inset: 0;margin: 0;opacity: 0;width: 100%; height: 100%;}';
+
+        this.style.marginBottom = '20px';
+        this.style.position = 'relative';
+        this.style.width = '80%';
+        this.style.height = '200px';
+        this.style.backgroundColor = 'rgba(0,0,0,.7)';
+        this.style.borderRadius = '8px';
+        this.style.display = 'flex';
+        this.style.justifyContent = 'center';
+        this.style.alignItems = 'center';
+        this.style.transition = 'all .4s ease';
+        this.ondragover = this.ondragenter = function(event){
+            event.preventDefault();
+            this.classList.add('dragging');
+            return false;
+        };
+        this.ondragleave = function(event){
+            event.preventDefault();
+            this.classList.remove('dragging');
+            return false;
+        };
+        this.ondrop = function(event){
+            event.preventDefault();
+            this.classList.add('picked');
+            input.files = event.dataTransfer.files;
+            text.innerHTML = `${input.files.length} Files dropped`;
+            var filesDroppedEvent = new CustomEvent('filesdropped',{
+                detail: {
+                    files: input.files,
+                },
+                bubbles: false,
+                composed: true,
+                cancelable: true
+            });
+            this.dispatchEvent(filesDroppedEvent);
+            if(this.onfilesdropped) this.onfilesdropped(filesDroppedEvent);
+            else {
+                var func = new Function(this.getAttribute('onfilesdropped'));
+                func.call(filesDroppedEvent);
+            }
+            return false;
+        };
+
+        var input = document.createElement('input');
+        input.setAttribute('part','file-input');
+        input.setAttribute('class','file-input');
+        input.setAttribute('type','file');
+
+        var dropBorder = document.createElement('div');
+        dropBorder.setAttribute('part','drop-border');
+        dropBorder.setAttribute('class','drop-border');
+
+        var icon = document.createElement('span');
+        icon.setAttribute('part','icon');
+        icon.setAttribute('class','icon');
+        icon.innerHTML = iconAttr;
+
+        var text = document.createElement('span');
+        text.setAttribute('part','text');
+        text.setAttribute('class','text');
+        text.innerHTML = textAttr;
+
+        var sheet = document.createElement('link');
+        sheet.setAttribute('rel','stylesheet');
+        sheet.setAttribute('type','text/css');
+        sheet.setAttribute('href','https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css');
+
+        shadow.appendChild(style);
+        shadow.appendChild(sheet);
+        shadow.appendChild(input);
+        shadow.appendChild(dropBorder);
+        dropBorder.appendChild(icon);
+        dropBorder.appendChild(text);
+    }
+}
+
 customElements.define('toggle-switch',ToggleSwitch);
 customElements.define('custom-select',CustomSelect);
 customElements.define('custom-range',CustomRange);
+customElements.define('custom-textfield',CustomTextField);
+customElements.define('drop-zone',DropZone);
