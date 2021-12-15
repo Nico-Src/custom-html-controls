@@ -56,6 +56,9 @@
             #styled-custom-select::part(select-option):hover{background-color: rgb(116, 182, 85);}
             #styled-custom-select::part(line-bg){background-color: transparent;}
             #styled-custom-select::part(line){background-color: rgb(52, 105, 52);}
+
+            #styled-toggle-switch::part(slider){background-color: rgb(192, 236, 172);}
+            #styled-toggle-switch::part(slider-checked){background-color: rgb(52, 105, 52);}
         </style>
     </head>
     <body>
@@ -136,6 +139,23 @@
                                 <option>Option 5</option>
                                 <option>Option 6</option>
                             </custom-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table">
+                <div class="table-header">Toggle-Switch</div>
+                <div class="table-content">
+                    <div class="column">
+                        <div class="header">Default</div>
+                        <div class="content">
+                            <toggle-switch></toggle-switch>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Styled</div>
+                        <div class="content">
+                            <toggle-switch id="styled-toggle-switch"></toggle-switch>
                         </div>
                     </div>
                 </div>
