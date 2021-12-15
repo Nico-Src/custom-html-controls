@@ -201,11 +201,15 @@ class CustomTextField extends HTMLElement{
         var shadow = this.attachShadow({mode: 'open'});
         var style = document.createElement('style');
 
+        var type = "text";
+        if(this.getAttribute('type')) type = this.getAttribute('type');
+
         style.innerHTML = '.wrapper{width: 300px;height: 40px;display: flex;justify-content: center;align-items: center;flex-direction: column;background-color: #ccc;border-radius: 6px;padding: 4px 8px 4px 8px;position: relative;}';
         style.innerHTML += '.wrapper .text-input{width: 100%;height: 96%;font-family: "Poppins", sans-serif;font-size: 16px;background-color: transparent;border: none;outline: none;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .line-bg{position: absolute;bottom: 6%;height: 1.5px;width: 96%;display: flex;justify-content: center;align-items: center;background-color: #959595;}';
         style.innerHTML += '.wrapper .line-bg .line{background-color: #303030;width: 0%;height: 100%;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .text-input:focus ~ .line-bg .line{width: 100%;}';
+        style.innerHTML += '.hint{color: #CCC; opacity: .8; transition: all .4s ease; z-index: 10; position: absolute; top: 0; bottom: 0; margin: auto; left: 15px; pointer-events: none; height: fit-content; height: -moz-fit-content;}';
 
         var wrapper = document.createElement('div');
         wrapper.setAttribute('class','wrapper');
@@ -216,9 +220,24 @@ class CustomTextField extends HTMLElement{
         textInput.setAttribute('part','text-input');
         textInput.setAttribute('class','text-input');
 
+        this.addEventListener('keyup',function(){
+            if(textInput.value.trim() === ""){
+                hint.style.opacity="1";
+                hint.style.transform = "translateX(0px)";
+            } else {
+                hint.style.opacity="0";
+                hint.style.transform = "translateX(50px)";
+            }
+        });
+
         var textBottomLine = document.createElement('div');
         textBottomLine.setAttribute('class','line-bg');
         textBottomLine.setAttribute('part','line-bg');
+
+        var hint = document.createElement('span');
+        hint.setAttribute('class','hint');
+        hint.setAttribute('part','hint');
+        hint.innerHTML = this.getAttribute('hint');
 
         var line = document.createElement('div');
         line.setAttribute('class','line');
@@ -228,6 +247,7 @@ class CustomTextField extends HTMLElement{
         shadow.appendChild(style);
         wrapper.appendChild(textInput);
         wrapper.appendChild(textBottomLine);
+        wrapper.appendChild(hint);
         textBottomLine.appendChild(line);
     }
 }
