@@ -64,7 +64,7 @@ class CustomSelect extends HTMLElement{
         style.innerHTML += '.wrapper .select-option{width: 100%;transition: all .4s ease;height: 40px;display: flex;overflow:hidden;border-bottom: 2px solid #404040; justify-content: center; align-items: center; color: #fff;}';
         style.innerHTML += '.wrapper .select-option:last-child{border: none;}';
         style.innerHTML += '.wrapper .select-option.hidden{height: 0;border-width: 0px; pointer-events: none; color: transparent;}';
-        style.innerHTML += '.wrapper .select-options{height: fit-content;overflow:auto;max-height: 250px;width: 100%;opacity: 0;transform: translateY(50px);position: absolute;top: calc(100% + 10px);border-radius: 6px;background-color: #ccc;transition: all .4s ease;}';
+        style.innerHTML += '.wrapper .select-options{height: fit-content;overflow:auto;max-height: 200px;width: 100%;opacity: 0;transform: translateY(50px);position: absolute;top: calc(100% + 10px);border-radius: 6px;background-color: #ccc;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .select-options::-webkit-scrollbar{width: 8px;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .select-options::-webkit-scrollbar-track{width: 10px; background-color: '+scrollBg+';border-bottom-right-radius: 6px;border-top-right-radius: 6px;}';
         style.innerHTML += '.wrapper .select-options::-webkit-scrollbar-thumb{border: 3px solid '+scrollBg+'; border-radius: 6px; background: '+scrollThumbBg+';}';
@@ -116,7 +116,7 @@ class CustomSelect extends HTMLElement{
                     if(textInput.value.trim() == ""){
                         child.classList.remove('hidden');
                     } else {
-                        if(!child.innerHTML.toLowerCase().includes(textInput.value.toLowerCase())){
+                        if(!child.innerHTML.toLowerCase().includes(textInput.value.toLowerCase()) || child.innerHTML.toLowerCase() === textInput.value.toLowerCase()){
                             child.classList.add('hidden');
                         } else {
                             child.classList.remove('hidden');
