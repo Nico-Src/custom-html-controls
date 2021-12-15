@@ -204,8 +204,8 @@ class CustomTextField extends HTMLElement{
         var type = "text";
         if(this.getAttribute('type')) type = this.getAttribute('type');
 
-        style.innerHTML = '.wrapper{width: 300px;height: 40px;display: flex;justify-content: center;align-items: center;flex-direction: column;background-color: #ccc;border-radius: 6px;padding: 4px 8px 4px 8px;position: relative;}';
-        style.innerHTML += '.wrapper .text-input{width: 100%;height: 96%;font-family: "Poppins", sans-serif;font-size: 16px;background-color: transparent;border: none;outline: none;transition: all .4s ease;}';
+        style.innerHTML = '.wrapper{width: calc(100%);height: calc(100%);display: flex;justify-content: center;align-items: center;flex-direction: column;background-color: #ccc;border-radius: 6px;position: relative;}';
+        style.innerHTML += '.wrapper .text-input{width: 100%;height: 96%;padding-left: 2.5%; padding-right: 2.5%;font-family: "Poppins", sans-serif;font-size: 16px;background-color: transparent;border: none;outline: none;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .line-bg{position: absolute;bottom: 6%;height: 1.5px;width: 96%;display: flex;justify-content: center;align-items: center;background-color: #959595;}';
         style.innerHTML += '.wrapper .line-bg .line{background-color: #303030;width: 0%;height: 100%;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .text-input:focus ~ .line-bg .line{width: 100%;}';
@@ -343,8 +343,37 @@ class DropZone extends HTMLElement{
     }
 }
 
+class CustomButton extends HTMLElement{
+    constructor(){
+        super();
+
+        var shadow = this.attachShadow({mode: 'open'});
+        var style = document.createElement('style');
+
+        style.innerHTML = '.button {background: #303030;border-radius: 12px;font-family: "Poppins",sans-serif;transition: all .2s cubic-bezier(.3, .7, .4, 1);border: none;padding: 0;cursor: pointer;width:100%;height:calc(100%);outline-offset: 4px;}';
+        style.innerHTML += '.front {display: block;display: flex;will-change: transform;justify-content:center;transition: all .2s cubic-bezier(.3, .7, .4, 1);align-items:center;border-radius: 12px;height:100%;font-size: 1.25rem;background: #707070;color: white;transform: translateY(-3px);}';
+        style.innerHTML += '.button:active .front {transform: translateY(-2px) !important;}';
+        style.innerHTML += '.button:hover .front {transform: translateY(-6px);}';
+
+        var button = document.createElement('button');
+        button.setAttribute('type','button');
+        button.setAttribute('class','button');
+        button.setAttribute('part','button');
+        
+        var front = document.createElement('span');
+        front.setAttribute('class','front');
+        front.setAttribute('part','front');
+        front.innerHTML = this.innerHTML;
+
+        shadow.appendChild(button);
+        shadow.appendChild(style);
+        button.appendChild(front);
+    }
+}
+
 customElements.define('toggle-switch',ToggleSwitch);
 customElements.define('custom-select',CustomSelect);
 customElements.define('custom-range',CustomRange);
 customElements.define('custom-textfield',CustomTextField);
+customElements.define('custom-button',CustomButton);
 customElements.define('drop-zone',DropZone);
