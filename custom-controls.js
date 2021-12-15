@@ -55,8 +55,8 @@ class CustomSelect extends HTMLElement{
         if(this.getAttribute('scroll-bg')) scrollBg = this.getAttribute('scroll-bg');
         if(this.getAttribute('scroll-thumb-bg')) scrollThumbBg = this.getAttribute('scroll-thumb-bg');
 
-        style.innerHTML = '.wrapper{width: 300px;height: 40px;display: flex;justify-content: center;align-items: center;flex-direction: column;background-color: #ccc;border-radius: 6px;padding: 4px 8px 4px 8px;position: relative;}';
-        style.innerHTML += '.wrapper .text-input{width: 100%;height: 96%;font-family: "Poppins", sans-serif;font-size: 16px;background-color: transparent;border: none;outline: none;transition: all .4s ease;}';
+        style.innerHTML = '.wrapper{width: 100%;height: 100%;display: flex;justify-content: center;align-items: center;flex-direction: column;background-color: #ccc;border-radius: 6px;position: relative;}';
+        style.innerHTML += '.wrapper .text-input{width: 100%;height: 96%;padding-right: 2.5%; padding-left: 2.5%;font-family: "Poppins", sans-serif;font-size: 16px;background-color: transparent;border: none;outline: none;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .line-bg{position: absolute;bottom: 6%;height: 1.5px;width: 96%;display: flex;justify-content: center;align-items: center;background-color: #959595;}';
         style.innerHTML += '.wrapper .line-bg .line{background-color: #303030;width: 0%;height: 100%;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .text-input:focus ~ .line-bg .line{width: 100%;}';
@@ -81,12 +81,12 @@ class CustomSelect extends HTMLElement{
         this.addEventListener('keyup',function(){
             for(var child of selectOptions.children){
                 if(textInput.value.trim() == ""){
-                    $(child).removeClass('hidden');
+                    child.classList.remove('hidden');
                 } else {
-                    if(!child.innerHTML.toLowerCase().includes(textInput.value.toLowerCase())){
-                        $(child).addClass('hidden');
+                    if(!child.innerHTML.toLowerCase().includes(textInput.value.toLowerCase()) || child.innerHTML.toLowerCase() === textInput.value.toLowerCase()){
+                        child.classList.add('hidden');
                     } else {
-                        $(child).removeClass('hidden');
+                        child.classList.remove('hidden');
                     }
                 }
             }
@@ -114,12 +114,12 @@ class CustomSelect extends HTMLElement{
                 textInput.value = this.innerHTML;
                 for(var child of selectOptions.children){
                     if(textInput.value.trim() == ""){
-                        $(child).removeClass('hidden');
+                        child.classList.remove('hidden');
                     } else {
                         if(!child.innerHTML.toLowerCase().includes(textInput.value.toLowerCase())){
-                            $(child).addClass('hidden');
+                            child.classList.add('hidden');
                         } else {
-                            $(child).removeClass('hidden');
+                            child.classList.remove('hidden');
                         }
                     }
                 }
@@ -209,7 +209,7 @@ class CustomTextField extends HTMLElement{
         style.innerHTML += '.wrapper .line-bg{position: absolute;bottom: 6%;height: 1.5px;width: 96%;display: flex;justify-content: center;align-items: center;background-color: #959595;}';
         style.innerHTML += '.wrapper .line-bg .line{background-color: #303030;width: 0%;height: 100%;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .text-input:focus ~ .line-bg .line{width: 100%;}';
-        style.innerHTML += '.hint{color: #CCC; opacity: .8; transition: all .4s ease; z-index: 10; position: absolute; top: 0; bottom: 0; margin: auto; left: 15px; pointer-events: none; height: fit-content; height: -moz-fit-content;}';
+        style.innerHTML += '.hint{color: #505050; opacity: .8; transition: all .4s ease; z-index: 10; position: absolute; will-change:transform; top: 0; bottom: 0; margin: auto; left: 2.5%; pointer-events: none; height: fit-content; height: -moz-fit-content;}';
 
         var wrapper = document.createElement('div');
         wrapper.setAttribute('class','wrapper');
