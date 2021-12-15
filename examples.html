@@ -35,20 +35,83 @@
             .main{width: 100%; height: 100%; overflow: auto;display: flex; justify-content: center; align-items: center; flex-direction: column;}
             .main::-webkit-scrollbar{width: 0;}
 
-            .main .table{width: fit-content;overflow:hidden; width: -moz-fit-content; height: 250px; background-color: #707070; border-radius: 8px;}
-            .main .table .column{height: calc(100% - 35px); display: flex; justify-content: center; align-items: center; width: 300px; background-color: #404040; border-right: 2px solid #202020;}
+            .main .table{width: fit-content;margin-top: 10px;margin-bottom: 10px; width: -moz-fit-content; height: 250px; display: flex; justify-content: center; align-items: center;flex-direction: column; background-color: #707070; border-radius: 8px;}
+            .main .table .table-content{display:flex;border-bottom-left-radius:6px;border-bottom-right-radius: 6px;justify-content: center;align-items: center;width:100%;height:calc(100% - 35px);}
+            .main .table .column{height: calc(100%); display: flex; justify-content: center;flex-direction: column; align-items: center; width: 300px; background-color: #404040; border-right: 4px solid #303030;}
             .main .table .column:last-child{border: none;}
-            .main .table .header{width: 100%;height: 35px;display:flex; justify-content: center; align-items: center;color: white;background-color: #505050;}
+            .main .table .column .header{height: 30px; width: 100%; display: flex; justify-content: center; align-items: center; background-color: #707070; color:white;}
+            .main .table .column .content{display: flex;justify-content: center;align-items: center;width: 100%;height: calc(100% - 30px);}
+            .main .table .table-header{width: 100%;border-top-right-radius: 6px;border-top-left-radius: 6px;height: 35px;display:flex; justify-content: center; align-items: center;color: white;background-color: #505050;}
 
             custom-textfield{width: 90%; height: 40px;}
+            custom-select{width:90%; height: 40px;}
+            #styled-custom-textfield::part(wrapper){background-color: rgb(192, 236, 172);}
+            #styled-custom-textfield::part(line-bg){background-color: transparent;}
+            #styled-custom-textfield::part(line){background-color: rgb(52, 105, 52);}
         </style>
     </head>
     <body>
         <div class="main">
             <div class="table">
-                <div class="header">Custom-Textfields</div>
-                <div class="column">
-                    <custom-textfield></custom-textfield>
+                <div class="table-header">Custom-Textfields</div>
+                <div class="table-content">
+                    <div class="column">
+                        <div class="header">Default</div>
+                        <div class="content">
+                            <custom-textfield></custom-textfield>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">With Hint</div>
+                        <div class="content">
+                            <custom-textfield hint="Username..."></custom-textfield>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Password With Hint</div>
+                        <div class="content">
+                            <custom-textfield hint="Password..." type="password"></custom-textfield>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Styled</div>
+                        <div class="content">
+                            <custom-textfield id="styled-custom-textfield" hint="Password..." type="password"></custom-textfield>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table">
+                <div class="table-header">Custom-Select</div>
+                <div class="table-content">
+                    <div class="column">
+                        <div class="header">Default</div>
+                        <div class="content">
+                            <custom-select>
+                                <option>Option 1</option>
+                                <option>Option 2</option>
+                                <option>Option 3</option>
+                            </custom-select>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">With Hint</div>
+                        <div class="content">
+                            <custom-textfield hint="Username..."></custom-textfield>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Password With Hint</div>
+                        <div class="content">
+                            <custom-textfield hint="Password..." type="password"></custom-textfield>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Styled</div>
+                        <div class="content">
+                            <custom-textfield id="styled-custom-textfield" hint="Password..." type="password"></custom-textfield>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
