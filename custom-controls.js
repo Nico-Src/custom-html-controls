@@ -220,6 +220,7 @@ class CustomTextField extends HTMLElement{
         textInput.setAttribute('type',type);
         textInput.setAttribute('part','text-input');
         textInput.setAttribute('class','text-input');
+        if(this.getAttribute('name')) textInput.setAttribute('name',this.getAttribute('name'));
 
         this.addEventListener('keyup',function(){
             if(textInput.value.trim() === ""){
