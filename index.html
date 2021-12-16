@@ -4,7 +4,7 @@
             /* FONT */
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-            *{
+            *:not(i){
                 font-family: 'Poppins',sans-serif;
                 user-select: none;
                 touch-action: none;
@@ -14,6 +14,7 @@
                 background: url(repeatbg.png);
                 background-repeat: repeat;
                 min-height: 100vh;
+                overflow: auto;
                 min-width: 100vw;
                 background-size: 15%;
                 animation: bg-anim 200s linear infinite; /* background movement */
@@ -32,8 +33,8 @@
                 }
             }
 
-            .main{width: 100%; height: 100%; overflow: auto;display: flex; justify-content: center; align-items: center; flex-direction: column;}
-            .main::-webkit-scrollbar{width: 0;}
+            .main{width: 100%; height: fit-content; height: -moz-fit-content; overflow: auto;display: flex; justify-content: center; align-items: center; flex-direction: column;}
+            .main::-webkit-scrollbar,body::-webkit-scrollbar{width: 0;}
 
             .main .table{width: fit-content;margin-top: 10px;margin-bottom: 10px; width: -moz-fit-content; height: 250px; display: flex; justify-content: center; align-items: center;flex-direction: column; background-color: #707070; border-radius: 8px;}
             .main .table .table-content{display:flex;border-bottom-left-radius:6px;border-bottom-right-radius: 6px;justify-content: center;align-items: center;width:100%;height:calc(100% - 35px);}
@@ -47,6 +48,11 @@
             custom-textfield::part(line-bg){height: 2px;}
             custom-select{width:90%; height: 40px;}
             custom-select::part(line-bg){height: 2px;}
+            custom-button{height: 30px; width: 80%;}
+            drop-zone{height: calc(100% - 20px) !important; width: calc(100% - 20px) !important; margin: 0 !important;}
+            drop-zone.dragging{background-color: rgb(192, 236, 172) !important;}
+            drop-zone.picked{background-color: rgb(85, 170, 85) !important;}
+
             #styled-custom-textfield::part(wrapper){background-color: rgb(192, 236, 172);}
             #styled-custom-textfield::part(line-bg){background-color: transparent;}
             #styled-custom-textfield::part(line){background-color: rgb(52, 105, 52);}
@@ -59,6 +65,12 @@
 
             #styled-toggle-switch::part(slider){background-color: rgb(192, 236, 172);}
             #styled-toggle-switch::part(slider-checked){background-color: rgb(52, 105, 52);}
+
+            #styled-custom-range::part(slider){background-color: #808080;}
+            #styled-custom-range::part(indicator){background-color: rgb(192, 236, 172); color: black;}
+
+            #styled-custom-button::part(button){background-color: rgb(85, 170, 85);}
+            #styled-custom-button::part(front){background-color: rgb(192, 236, 172);}
         </style>
     </head>
     <body>
@@ -156,6 +168,69 @@
                         <div class="header">Styled</div>
                         <div class="content">
                             <toggle-switch id="styled-toggle-switch"></toggle-switch>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table">
+                <div class="table-header">Custom-Range</div>
+                <div class="table-content">
+                    <div class="column">
+                        <div class="header">Default</div>
+                        <div class="content">
+                            <custom-range min="20" max="200" value="30"></custom-range>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">With Indicator</div>
+                        <div class="content">
+                            <custom-range min="20" max="200" value="30" type="indicator"></custom-range>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Styled</div>
+                        <div class="content">
+                            <custom-range min="20" max="200" value="30" id="styled-custom-range" thumb-color="rgb(192, 236, 172)" thumb-hover-color="rgb(116, 182, 85)"></custom-range>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Styled With Indicator</div>
+                        <div class="content">
+                            <custom-range min="20" max="200" value="30" type="indicator" id="styled-custom-range" thumb-color="rgb(192, 236, 172)" thumb-hover-color="rgb(116, 182, 85)"></custom-range>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table">
+                <div class="table-header">Custom-Range</div>
+                <div class="table-content">
+                    <div class="column">
+                        <div class="header">Default</div>
+                        <div class="content">
+                            <custom-button>Test</custom-button>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Style</div>
+                        <div class="content">
+                            <custom-button id="styled-custom-button">Test</custom-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table">
+                <div class="table-header">Drop-Zone</div>
+                <div class="table-content">
+                    <div class="column">
+                        <div class="header">Default</div>
+                        <div class="content">
+                            <drop-zone></drop-zone>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Style</div>
+                        <div class="content">
+                            <drop-zone></drop-zone>
                         </div>
                     </div>
                 </div>
