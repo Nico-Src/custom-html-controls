@@ -390,16 +390,16 @@ class CustomButton extends HTMLElement{
             this.setInnerHTML = (newContent) => {
                 front.innerHTML = newContent;
             };
+        } else {
+            this.setInnerHTML = (newContent) => {
+                button.innerHTML = newContent;
+            };
         }
 
         var sheet = document.createElement('link');
         sheet.setAttribute('rel','stylesheet');
         sheet.setAttribute('type','text/css');
         sheet.setAttribute('href','https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css');
-
-        this.setInnerHTML = (newContent) => {
-            button.innerHTML = newContent;
-        };
 
         shadow.appendChild(sheet);
         shadow.appendChild(button);
