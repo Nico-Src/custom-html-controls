@@ -232,6 +232,15 @@ class CustomTextField extends HTMLElement{
             }
         });
 
+        this.setType = (newType) => {
+            textInput.setAttribute('type',newType);
+        };
+
+        this.getType = () => {
+            if(textInput.getAttribute('type')) return textInput.getAttribute('type');
+            else return "text";
+        };
+
         var textBottomLine = document.createElement('div');
         textBottomLine.setAttribute('class','line-bg');
         textBottomLine.setAttribute('part','line-bg');
