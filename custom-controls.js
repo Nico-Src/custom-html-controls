@@ -185,7 +185,7 @@ class CustomRange extends HTMLElement{
         indicator.innerHTML = value + "%";
 
         slider.addEventListener('input',function(){
-            $(indicator).html(this.value+'%');
+            indicator.innerHTML = this.value+'%';
         });
 
         shadow.appendChild(style);
