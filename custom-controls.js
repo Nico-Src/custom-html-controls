@@ -386,12 +386,20 @@ class CustomButton extends HTMLElement{
             front.setAttribute('part','front');
             front.innerHTML = this.innerHTML;
             button.appendChild(front);
+            
+            this.setInnerHTML = (newContent) => {
+                front.innerHTML = newContent;
+            };
         }
 
         var sheet = document.createElement('link');
         sheet.setAttribute('rel','stylesheet');
         sheet.setAttribute('type','text/css');
         sheet.setAttribute('href','https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css');
+
+        this.setInnerHTML = (newContent) => {
+            button.innerHTML = newContent;
+        };
 
         shadow.appendChild(sheet);
         shadow.appendChild(button);
