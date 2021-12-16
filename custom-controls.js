@@ -83,7 +83,7 @@ class CustomSelect extends HTMLElement{
                 if(textInput.value.trim() == ""){
                     child.classList.remove('hidden');
                 } else {
-                    if(!child.innerHTML.toLowerCase().includes(textInput.value.toLowerCase()) || child.innerHTML.toLowerCase() === textInput.value.toLowerCase()){
+                    if(!child.innerHTML.toLowerCase().includes(textInput.value.toLowerCase())){
                         child.classList.add('hidden');
                     } else {
                         child.classList.remove('hidden');
@@ -116,7 +116,7 @@ class CustomSelect extends HTMLElement{
                     if(textInput.value.trim() == ""){
                         child.classList.remove('hidden');
                     } else {
-                        if(!child.innerHTML.toLowerCase().includes(textInput.value.toLowerCase()) || child.innerHTML.toLowerCase() === textInput.value.toLowerCase()){
+                        if(!child.innerHTML.toLowerCase().includes(textInput.value.toLowerCase())){
                             child.classList.add('hidden');
                         } else {
                             child.classList.remove('hidden');
@@ -132,7 +132,8 @@ class CustomSelect extends HTMLElement{
         wrapper.appendChild(textBottomLine);
         wrapper.appendChild(selectOptions);
         textBottomLine.appendChild(line);
-        //hasChildNodes for children
+        
+        // ToDo: add selected class to selected element and check in search if element is already selected 
     }
 }
 

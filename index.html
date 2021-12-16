@@ -204,7 +204,7 @@
                 </div>
             </div>
             <div class="table">
-                <div class="table-header">Custom-Range</div>
+                <div class="table-header">Custom-Buttons</div>
                 <div class="table-content">
                     <div class="column">
                         <div class="header">Default</div>
@@ -240,4 +240,12 @@
         </div>
     </body>
     <script src="custom-controls.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function(event) { 
+            var dropZone = document.getElementById("styled-drop-zone");
+            dropZone.addEventListener('filesdropped',function(evt){
+                console.log(evt);
+            });
+        });
+    </script>
 </html>
