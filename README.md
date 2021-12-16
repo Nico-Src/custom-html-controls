@@ -9,4 +9,5 @@
 [ ] - Navigation ( + different Types )  
 [ ] - Custom Text Field  
 
-Documentation on custom Attributes and how to style controls: https://github.com/Nico-Src/custom-html-controls/wiki
+Documentation on custom Attributes and how to style controls: https://github.com/Nico-Src/custom-html-controls/wiki  
+Take a look at the example page: https://nico-src.github.io/custom-html-controls/
