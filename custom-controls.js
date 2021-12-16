@@ -180,6 +180,10 @@ class CustomRange extends HTMLElement{
         slider.setAttribute('max',max);
         slider.setAttribute('value',value);
 
+        this.getValue = () => {
+            return slider.value;
+        };
+
         var indicator = document.createElement('div');
         indicator.setAttribute('part','indicator');
         indicator.setAttribute('class','indicator');
