@@ -303,11 +303,6 @@ class DropZone extends HTMLElement{
                 cancelable: true
             });
             this.dispatchEvent(filesDroppedEvent);
-            if(this.onfilesdropped) this.onfilesdropped(filesDroppedEvent);
-            else {
-                var func = new Function(this.getAttribute('onfilesdropped'));
-                func.call(filesDroppedEvent);
-            }
             return false;
         };
 
@@ -315,6 +310,22 @@ class DropZone extends HTMLElement{
         input.setAttribute('part','file-input');
         input.setAttribute('class','file-input');
         input.setAttribute('type','file');
+        input.setAttribute('multiple','multiple');
+
+        input.addEventListener('change',(e) => {
+            this.classList.add('picked');
+            text.innerHTML = `${input.files.length} Files dropped`;
+            var filesDroppedEvent = new CustomEvent('filesdropped',{
+                detail: {
+                    files: input.files,
+                },
+                bubbles: false,
+                composed: true,
+                cancelable: true
+            });
+            this.dispatchEvent(filesDroppedEvent);
+            return false;
+        });
 
         var dropBorder = document.createElement('div');
         dropBorder.setAttribute('part','drop-border');
@@ -351,15 +362,15 @@ class CustomButton extends HTMLElement{
         var shadow = this.attachShadow({mode: 'open'});
         var style = document.createElement('style');
 
-        style.innerHTML = '.button {background: #303030;border-radius: 12px;font-family: "Poppins",sans-serif;transition: all .2s cubic-bezier(.3, .7, .4, 1);border: none;padding: 0;cursor: pointer;width:100%;height:calc(100%);outline-offset: 4px;}';
+        style.innerHTML = '.shadow {background: #303030;border-radius: 12px;font-family: "Poppins",sans-serif;transition: all .2s cubic-bezier(.3, .7, .4, 1);border: none;padding: 0;cursor: pointer;width:100%;height:calc(100%);outline-offset: 4px;}';
         style.innerHTML += '.front {display: block;display: flex;will-change: transform;justify-content:center;transition: all .2s cubic-bezier(.3, .7, .4, 1);align-items:center;border-radius: 12px;height:100%;font-size: 1.25rem;background: #707070;color: white;transform: translateY(-3px);}';
-        style.innerHTML += '.button:active .front {transform: translateY(-2px) !important;}';
-        style.innerHTML += '.button:hover .front {transform: translateY(-6px);}';
+        style.innerHTML += '.shadow:active .front {transform: translateY(-2px) !important;}';
+        style.innerHTML += '.shadow:hover .front {transform: translateY(-6px);}';
 
         var button = document.createElement('button');
         button.setAttribute('type','button');
-        button.setAttribute('class','button');
-        button.setAttribute('part','button');
+        button.setAttribute('class','shadow');
+        button.setAttribute('part','shadow');
         
         var front = document.createElement('span');
         front.setAttribute('class','front');
