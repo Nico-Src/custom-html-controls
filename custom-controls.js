@@ -388,6 +388,12 @@ class CustomButton extends HTMLElement{
             button.appendChild(front);
         }
 
+        var sheet = document.createElement('link');
+        sheet.setAttribute('rel','stylesheet');
+        sheet.setAttribute('type','text/css');
+        sheet.setAttribute('href','https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css');
+
+        shadow.appendChild(sheet);
         shadow.appendChild(button);
         shadow.appendChild(style);
     }
