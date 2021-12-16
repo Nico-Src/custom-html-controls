@@ -361,25 +361,34 @@ class CustomButton extends HTMLElement{
 
         var shadow = this.attachShadow({mode: 'open'});
         var style = document.createElement('style');
+        var type = "default";
+        if(this.getAttribute('type')) type = this.getAttribute('type');
 
-        style.innerHTML = '.shadow {background: #303030;border-radius: 12px;font-family: "Poppins",sans-serif;transition: all .2s cubic-bezier(.3, .7, .4, 1);border: none;padding: 0;cursor: pointer;width:100%;height:calc(100%);outline-offset: 4px;}';
-        style.innerHTML += '.front {display: block;display: flex;will-change: transform;justify-content:center;transition: all .2s cubic-bezier(.3, .7, .4, 1);align-items:center;border-radius: 12px;height:100%;font-size: 1.25rem;background: #707070;color: white;transform: translateY(-3px);}';
-        style.innerHTML += '.shadow:active .front {transform: translateY(-2px) !important;}';
-        style.innerHTML += '.shadow:hover .front {transform: translateY(-6px);}';
+        if(type === "raised"){
+            style.innerHTML = '.shadow {background: #303030;border-radius: 12px;font-family: "Poppins",sans-serif;transition: all .2s cubic-bezier(.3, .7, .4, 1);border: none;padding: 0;cursor: pointer;width:100%;height:calc(100%);outline-offset: 4px;}';
+            style.innerHTML += '.front {display: block;display: flex;will-change: transform;justify-content:center;transition: all .2s cubic-bezier(.3, .7, .4, 1);align-items:center;border-radius: 12px;height:100%;font-size: 1.25rem;background: #707070;color: white;transform: translateY(-3px);}';
+            style.innerHTML += '.shadow:active .front {transform: translateY(-2px) !important;}';
+            style.innerHTML += '.shadow:hover .front {transform: translateY(-6px);}';
+        } else {
+            style.innerHTML = '.shadow {background: #303030;border-radius: 12px;font-family: "Poppins",sans-serif;transition: all .2s cubic-bezier(.3, .7, .4, 1);border: none;padding: 0;cursor: pointer;width:100%;height:calc(100%);outline-offset: 4px;}';
+        }
 
         var button = document.createElement('button');
         button.setAttribute('type','button');
         button.setAttribute('class','shadow');
         button.setAttribute('part','shadow');
+        if(type !== "raised"){button.innerHTML = this.innerHTML;}
         
-        var front = document.createElement('span');
-        front.setAttribute('class','front');
-        front.setAttribute('part','front');
-        front.innerHTML = this.innerHTML;
+        if(type === "raised"){
+            var front = document.createElement('span');
+            front.setAttribute('class','front');
+            front.setAttribute('part','front');
+            front.innerHTML = this.innerHTML;
+            button.appendChild(front);
+        }
 
         shadow.appendChild(button);
         shadow.appendChild(style);
-        button.appendChild(front);
     }
 }
 

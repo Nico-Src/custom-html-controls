@@ -71,7 +71,8 @@
             #styled-custom-range::part(slider){background-color: #808080;}
             #styled-custom-range::part(indicator){background-color: rgb(192, 236, 172); color: black;}
 
-            #styled-custom-button::part(shadow){background-color: rgb(85, 170, 85);}
+            #styled-custom-button::part(shadow){background-color: rgb(85, 170, 85); color: white;}
+            #styled-custom-button:not([type="raised"])::part(shadow):hover{background-color: rgb(192, 236, 172);}
             #styled-custom-button::part(front){background-color: rgb(192, 236, 172);}
         </style>
     </head>
@@ -216,6 +217,18 @@
                         <div class="header">Style</div>
                         <div class="content">
                             <custom-button id="styled-custom-button">Test</custom-button>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Default Raised</div>
+                        <div class="content">
+                            <custom-button type="raised">Test</custom-button>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="header">Styled Raised</div>
+                        <div class="content">
+                            <custom-button id="styled-custom-button" type="raised">Test</custom-button>
                         </div>
                     </div>
                 </div>
