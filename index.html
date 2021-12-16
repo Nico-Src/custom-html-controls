@@ -1,5 +1,6 @@
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css">
         <style>
             /* FONT */
             @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -49,9 +50,10 @@
             custom-select{width:90%; height: 40px;}
             custom-select::part(line-bg){height: 2px;}
             custom-button{height: 30px; width: 80%;}
+
             drop-zone{height: calc(100% - 20px) !important; width: calc(100% - 20px) !important; margin: 0 !important;}
-            drop-zone.dragging{background-color: rgb(192, 236, 172) !important;}
-            drop-zone.picked{background-color: rgb(85, 170, 85) !important;}
+            #styled-drop-zone.dragging{background-color: rgb(192, 236, 172) !important;}
+            #styled-drop-zone.picked{background-color: rgb(85, 170, 85) !important;}
 
             #styled-custom-textfield::part(wrapper){background-color: rgb(192, 236, 172);}
             #styled-custom-textfield::part(line-bg){background-color: transparent;}
@@ -230,7 +232,7 @@
                     <div class="column">
                         <div class="header">Style</div>
                         <div class="content">
-                            <drop-zone></drop-zone>
+                            <drop-zone id="styled-drop-zone"></drop-zone>
                         </div>
                     </div>
                 </div>
