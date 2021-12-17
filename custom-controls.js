@@ -477,6 +477,10 @@ class Navigation extends HTMLElement{
                     dropDownLiElement.classList.add('list-item');
                     dropDownLiElement.setAttribute('part','list-dropdown-item');
 
+                    dropDownLiElement.addEventListener('click',() => {
+                        this.dispatchEvent(linkClickedEvent);
+                    });
+
                     var a = element.children[0];
                     var icon = element.children[1];
                     var text = element.children[2];
