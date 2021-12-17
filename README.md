@@ -1,3 +1,4 @@
+<img align="center" width="150" height="150" src="https://i.imgur.com/HqQsSSZ.png">       
 # Custom HTML Controls
 ## Wiki
 Documentation on custom Attributes and how to style controls: https://github.com/Nico-Src/custom-html-controls/wiki  
