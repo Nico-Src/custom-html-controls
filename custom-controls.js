@@ -451,6 +451,15 @@ class Navigation extends HTMLElement{
             newLi.setAttribute('part','nav-item');
             newLi.setAttribute('class','nav-item');
             newLi.setAttribute('onclick',liElement.getAttribute('onclick'));
+            var linkClickedEvent = new CustomEvent('linkclicked',{
+                detail: {
+                    target: newLi,
+                },
+                bubbles: false,
+                composed: true,
+                cancelable: true
+            });
+            this.dispatchEvent(linkClickedEvent);
             if(liElement.classList.contains('active')) newLi.classList.add('active');
 
             ul.appendChild(newLi);
