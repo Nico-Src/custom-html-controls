@@ -63,7 +63,7 @@ class CustomSelect extends HTMLElement{
         style.innerHTML += '.wrapper .text-input:focus ~ .select-options{opacity: 1;transform: translateY(0);}';
         style.innerHTML += '.wrapper .select-option{width: 100%;transition: all .4s ease;height: 40px;display: flex;overflow:hidden;border-bottom: 2px solid #404040; justify-content: center; align-items: center; color: #fff;}';
         style.innerHTML += '.wrapper .select-option:last-child{border: none;}';
-        style.innerHTML += '.wrapper .select-option.hidden{height: 0;border-width: 0px; pointer-events: none; color: transparent;}';
+        style.innerHTML += '.wrapper .select-option.hidden{height: 0; border: none; pointer-events: none; color: transparent;}';
         style.innerHTML += '.wrapper .select-options{height: fit-content;overflow:auto;max-height: 200px;width: 100%;opacity: 0;transform: translateY(50px);position: absolute;top: calc(100% + 10px);border-radius: 6px;background-color: #ccc;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .select-options::-webkit-scrollbar{width: 8px;transition: all .4s ease;}';
         style.innerHTML += '.wrapper .select-options::-webkit-scrollbar-track{width: 10px; background-color: '+scrollBg+';border-bottom-right-radius: 6px;border-top-right-radius: 6px;}';
@@ -450,7 +450,7 @@ class Navigation extends HTMLElement{
             var newLi = document.createElement('li');
             newLi.setAttribute('part','nav-item');
             newLi.setAttribute('class','nav-item');
-            newLi.setAttribute('onclick','document.querySelector("custom-navigation").setPageIndex('+counter+');');
+            newLi.setAttribute('onclick',liElement.getAttribute('onclick'));
             if(liElement.classList.contains('active')) newLi.classList.add('active');
 
             ul.appendChild(newLi);
