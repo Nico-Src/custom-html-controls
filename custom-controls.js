@@ -450,7 +450,6 @@ class Navigation extends HTMLElement{
             var newLi = document.createElement('li');
             newLi.setAttribute('part','nav-item');
             newLi.setAttribute('class','nav-item');
-            newLi.setAttribute('onclick',liElement.getAttribute('onclick'));
             var linkClickedEvent = new CustomEvent('linkclicked',{
                 detail: {
                     target: newLi,
@@ -459,7 +458,9 @@ class Navigation extends HTMLElement{
                 composed: true,
                 cancelable: true
             });
-            this.dispatchEvent(linkClickedEvent);
+            newLi.addEventListener('click',() => {
+                this.dispatchEvent(linkClickedEvent);
+            });
             if(liElement.classList.contains('active')) newLi.classList.add('active');
 
             ul.appendChild(newLi);
