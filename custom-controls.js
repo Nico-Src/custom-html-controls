@@ -424,6 +424,182 @@ class CustomButton extends HTMLElement{
     }
 }
 
+class Navigation extends HTMLElement{
+    constructor(){
+        super();
+
+        var shadow = this.attachShadow({mode:'open'});
+        var style = document.createElement('style');
+
+        var wrapper = document.createElement('div');
+        wrapper.setAttribute('part','wrapper');
+        wrapper.setAttribute('class','wrapper');
+
+
+        var ul = document.createElement('ul');
+        ul.setAttribute('part','ul');
+        ul.setAttribute('class','ul');
+
+        var counter = 0;
+        for(var child of this.children){
+            var liElement = child;
+            var aElement = child.children[0];
+            var dropDown = child.children[1];
+            var spans = aElement.children;
+            
+            var newLi = document.createElement('li');
+            newLi.setAttribute('part','nav-item');
+            newLi.setAttribute('class','nav-item');
+            newLi.setAttribute('onclick','document.querySelector("custom-navigation").setPageIndex('+counter+');');
+            if(liElement.classList.contains('active')) newLi.classList.add('active');
+
+            ul.appendChild(newLi);
+            if(dropDown){
+                var dropDownElement = document.createElement('ul');
+                dropDownElement.setAttribute('class','list-dropdown');
+                dropDownElement.setAttribute('part','list-dropdown');
+
+                newLi.appendChild(dropDownElement);
+
+                for(var element of dropDown.children){
+                    var dropDownLiElement = document.createElement('li');
+                    dropDownLiElement.setAttribute('class','list-dropdown-item');
+                    dropDownLiElement.classList.add('list-item');
+                    dropDownLiElement.setAttribute('part','list-dropdown-item');
+
+                    var a = element.children[0];
+                    var icon = element.children[1];
+                    var text = element.children[2];
+
+                    var newA = document.createElement('a');
+                    newA.setAttribute('href',a.getAttribute('href'));
+                    
+                    var newIcon = document.createElement('span');
+                    newIcon.setAttribute('class','icon');
+                    newIcon.setAttribute('part','icon');
+                    newIcon.innerHTML = icon.innerHTML;
+
+                    var newText = document.createElement('span');
+                    newText.setAttribute('class','text');
+                    newText.setAttribute('part','text');
+                    newText.innerHTML = text.innerHTML;
+
+                    dropDownElement.appendChild(dropDownLiElement);
+                    dropDownLiElement.appendChild(newA);
+                    dropDownLiElement.appendChild(newIcon);
+                    dropDownLiElement.appendChild(newText);
+                }
+            }
+
+            var newA = document.createElement('a');
+            newA.setAttribute('href',aElement.getAttribute('href'));
+            newA.setAttribute('part','nav-link');
+            newA.setAttribute('class','nav-link');
+
+            newLi.appendChild(newA);
+
+            for(var span of spans){
+                var newSpan = document.createElement('span');
+                newSpan.setAttribute('class',span.getAttribute('class'));
+                newSpan.setAttribute('part',span.getAttribute('class'));
+                newSpan.innerHTML = span.innerHTML;
+
+                newA.appendChild(newSpan);
+            }
+
+            counter++;
+        }
+
+        this.getActiveIndex = () => {
+            var child = document.querySelector(".list.active");
+            var parent = child.parentNode;
+            // The equivalent of parent.children.indexOf(child)
+            var index = Array.prototype.indexOf.call(parent.children, child);
+            return index;
+        };
+
+        this.getPageIndex = (name) => {
+            var pages = ul.children;
+            for(var page of pages){
+                if(page.classList.contains(name)){
+                    var parent = page.parentNode;
+                    var index = Array.prototype.indexOf.call(parent.children, page);
+                    return index;
+                }
+            }
+        };
+
+        this.setPageIndex = (index) => {
+            var pages = ul.children;
+            for(var page of pages) if(page.classList.contains('active')) page.classList.remove('active');
+            pages[index].classList.add('active');
+        }
+
+        var width = 50 + (this.children.length * 70);
+        this.style.width = width + 'px';
+        this.style.height = '70px';
+        this.style.display = 'flex';
+        this.style.justifyContent = 'center';
+        this.style.alignItems = 'center';
+        
+        var ulWidth = 70*this.children.length;
+        style.innerHTML = '.wrapper{width: 100%;height: 100%;z-index: 10;background: #505050;position: relative;display: flex; justify-content: center; align-items: center; border-top-left-radius: 8px; border-top-right-radius: 8px; box-shadow: 0 0 16px 2px rgba(0,0,0,.3);}';
+        style.innerHTML += '.ul{display: flex;width: '+ulWidth+'px;height: 100%;padding: 0;margin:0;}';
+        style.innerHTML += '.ul .nav-item{list-style: none;position: relative;cursor: pointer;z-index: 1;width: 70px !important;height: 70px !important;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown{opacity: 0;pointer-events: none;padding: 0;height: fit-content;width: 70px;display: flex;justify-content: flex-end;align-items: center;flex-direction: column;position: absolute;bottom: calc(100%);padding-bottom: 10px;right: 0;left: 0;transition: all .4s ease;}';
+        style.innerHTML += '.ul .nav-item:hover .list-dropdown{opacity: 1;pointer-events: all;}';
+        style.innerHTML += '.ul .nav-item.active .list-dropdown{padding-bottom: 45px !important;}';
+        style.innerHTML += '.ul .nav-item.active:hover .list-dropdown{pointer-events: all;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item:last-child{margin-bottom: 0 !important;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item{list-style: none;opacity: 0;pointer-events: none;cursor: pointer;width: 55px;height: 55px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 32px;margin-bottom: 10px;color: white !important;background-color: #606060;position: relative;box-shadow: 0 0 16px 3px rgba(0,0,0,.2);transition: all .4s ease;}';
+        style.innerHTML += '.ul .nav-item:hover .list-dropdown .list-dropdown-item{opacity: 1;pointer-events: all;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item.active{background-color: yellowgreen;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item .nav-link{display: none;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item.show{opacity: 1;transform: scale(1);pointer-events: all;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item:hover{background-color: green;color: white;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item:hover .text{background-color: green !important;color: white;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item.active .text{background-color: yellowgreen;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item .text{position: absolute;width: fit-content;width: -moz-fit-content;background-color: #606060;white-space: nowrap;box-shadow: 0 0 16px 3px rgba(0,0,0,.2);word-break: keep-all;border-radius: 6px;padding: 4px;font-size: 14px;left: calc(100% + 10px);color: white;top: 50%;transform: translateY(-50%);transition: all .4s ease;}';
+        style.innerHTML += '.ul .nav-item .nav-link{pointer-events: none;text-decoration: none;position: relative;display: flex;justify-content: center;align-items: center;flex-direction: column;width: 100%;text-align: center;font-weight: 500;}';
+        style.innerHTML += '.ul .nav-item .nav-link .icon i{line-height: 70px;}';
+        style.innerHTML += '.ul .nav-item:not(.active):hover .nav-link .icon,.ul .nav-item:not(.active):hover .nav-link .text{color: green;}';
+        style.innerHTML += '.ul .nav-item .nav-link .icon{position: relative;display: block;font-size: 1.5em;text-align: center;transition: transform .4s ease;color: yellowgreen;}';
+        style.innerHTML += '.ul .nav-item.active .nav-link .icon{transform: translateY(-40px);color: white !important;}';
+        style.innerHTML += '.ul .nav-item .nav-link .text{position: absolute;color: yellowgreen;font-weight: 400;font-size: 0.75em;letter-spacing: 0.05em;transition: transform .4s ease;opacity: 0;transform: translateY(30px);}';
+        style.innerHTML += '.ul .nav-item.active .nav-link .text{opacity: 1;transform: translateY(10px);}';
+        style.innerHTML += '.ul .nav-item .nav-link{height: 100%; transition: all .4s ease;}';
+
+        style.innerHTML += '.indicator{position: absolute;top: -55%;border-radius: 50%;width: 58px;height: 58px;background: yellowgreen;border: 6px solid transparent;}';
+        style.innerHTML += '.indicator::before{content: "";position: absolute;top: 50%;left: -22px;width: 20px;height: 20px;background: transparent;border-top-right-radius: 20px;box-shadow: 0px -10px 0 0 transparent;}';
+        style.innerHTML += '.indicator::after{content: "";position: absolute;top: 50%;right: -22px;width: 20px;height: 20px;background: transparent;border-top-left-radius: 20px;box-shadow: 0px -10px 0 0 transparent;}';
+        
+        style.innerHTML += '.ul li:nth-child(1).active ~ .indicator{transform: translateX(calc(70px * 0));opacity: 1;transition: transform .4s ease;}';
+        style.innerHTML += '.ul li:nth-child(2).active ~ .indicator{transform: translateX(calc(70px * 1));opacity: 1;transition: transform .4s ease;}';
+        style.innerHTML += '.ul li:nth-child(3).active ~ .indicator{transform: translateX(calc(70px * 2));opacity: 1;transition: transform .4s ease;}';
+        style.innerHTML += '.ul li:nth-child(4).active ~ .indicator{transform: translateX(calc(70px * 3));opacity: 1;transition: transform .4s ease;}';
+        style.innerHTML += '.ul li:nth-child(5).active ~ .indicator{transform: translateX(calc(70px * 4));opacity: 1;transition: transform .4s ease;}';
+        style.innerHTML += '.ul li:nth-child(6).active ~ .indicator{transform: translateX(calc(70px * 5));opacity: 1;transition: transform .4s ease;}';
+        style.innerHTML += '.ul li:nth-child(7).active ~ .indicator{transform: translateX(calc(70px * 6));opacity: 1;transition: transform .4s ease;}';
+
+        var indicator = document.createElement('div');
+        indicator.setAttribute('class','indicator');
+        indicator.setAttribute('part','indicator');
+
+        ul.appendChild(indicator);
+
+        var sheet = document.createElement('link');
+        sheet.setAttribute('rel','stylesheet');
+        sheet.setAttribute('type','text/css');
+        sheet.setAttribute('href','https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css');
+
+        shadow.appendChild(sheet);
+        shadow.appendChild(style);
+        shadow.appendChild(wrapper);
+        wrapper.appendChild(ul);
+    }
+}
+
+customElements.define('custom-navigation',Navigation);
 customElements.define('toggle-switch',ToggleSwitch);
 customElements.define('custom-select',CustomSelect);
 customElements.define('custom-range',CustomRange);

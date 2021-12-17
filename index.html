@@ -50,6 +50,7 @@
             custom-select{width:90%; height: 40px;}
             custom-select::part(line-bg){height: 2px;}
             custom-button{height: 40px; width: 80%;}
+            custom-navigation{right: 0; left: 0; margin: auto; position: fixed; bottom: 0;}
 
             drop-zone{height: calc(100% - 20px) !important; width: calc(100% - 20px) !important; margin: 0 !important;}
             #styled-drop-zone.dragging{background-color: rgb(192, 236, 172) !important;}
@@ -251,6 +252,62 @@
                 </div>
             </div>
         </div>
+        <custom-navigation>
+            <li class="list list-item index active">
+                <a href="index.php">
+                    <span class="icon"><i class='bx bxs-home'></i></span>
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li class="list list-item mangas">
+                <a href="mangas.php">
+                    <span class="icon"><i class='bx bxs-book-alt'></i></span>
+                    <span class="text">Mangas</span>
+                </a>
+            </li>
+            <li class="list list-item videos">
+                <a href="videos.php">
+                    <span class="icon"><i class='bx bxs-videos'></i></span>
+                    <span class="text">Videos</span>
+                </a>
+            </li>
+            <li class="list list-item images">
+                <a href="images.php">
+                    <span class="icon"><i class='bx bx-images'></i></span>
+                    <span class="text">Images</span>
+                </a>
+            </li>
+            <li class="list list-item settings">
+                <a href="settings.php">
+                    <span class="icon"><i class='bx bx-abacus'></i></span>
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+            <li class="list list-item admin">
+                <a href="administration.php">
+                    <span class="icon"><i class='bx bxs-key'></i></span>
+                    <span class="text">Admin</span>
+                </a>
+                <ul class="list-dropdown">
+                    <li class="list-dropdown-item list-item">
+                        <a href="unusedimages.php"></a>
+                        <span class="icon"><i class='bx bx-folder-minus'></i></span>
+                        <span class="text">Unused Images</span>
+                    </li>
+                    <li class="list-dropdown-item list-item">
+                        <a href="scaleimages.php"></a>
+                        <span class="icon"><i class='bx bx-sort-down'></i></span>
+                        <span class="text">Scale Images</span>
+                    </li>
+                </ul>
+            </li>
+            <li class="list list-item logout">
+                <a href="logout.php">
+                    <span class="icon"><i class='bx bx-log-out-circle'></i></span>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </custom-navigation>
     </body>
     <script src="custom-controls.js"></script>
     <script>
@@ -261,7 +318,6 @@
             });
 
             var customButton = document.getElementById("styled-custom-button");
-            console.log(customButton);
         });
     </script>
 </html>
