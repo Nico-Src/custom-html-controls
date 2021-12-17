@@ -240,11 +240,13 @@ class CustomTextField extends HTMLElement{
             textInput.setAttribute('type',newType);
         };
 
+        // get type of the custom textfield
         this.getType = () => {
             if(textInput.getAttribute('type')) return textInput.getAttribute('type');
             else return "text";
         };
 
+        // get value of custom textfield
         this.getValue = () => {
             return textInput.value;
         }
@@ -280,6 +282,7 @@ class DropZone extends HTMLElement{
 
         var iconAttr = '<i class="bx bxs-file-blank"></i>';
         var textAttr = 'Drag and Drop your files here...';
+        // get Icon and Text Atrributes if set
         if(this.getAttribute('icon')) iconAttr = this.getAttribute('icon');
         if(this.getAttribute('text')) textAttr = this.getAttribute('text');
         style.innerHTML = '.drop-border{width: calc(100% - 20px);transition: all .4s ease;height: calc(100% - 20px);border-radius: 8px;border: 4.5px dotted white;display: flex;justify-content: center;align-items: center;flex-direction: column;}';
@@ -297,21 +300,34 @@ class DropZone extends HTMLElement{
         this.style.justifyContent = 'center';
         this.style.alignItems = 'center';
         this.style.transition = 'all .4s ease';
+
+        // Listen for drag-over event on the drop-zone
         this.ondragover = this.ondragenter = function(event){
             event.preventDefault();
+            // add dragging class on the drop-zone for possible styling
             this.classList.add('dragging');
             return false;
         };
+
+        // Listen for drag-leave event on the drop-zone
         this.ondragleave = function(event){
             event.preventDefault();
+            // remove dragging class
             this.classList.remove('dragging');
             return false;
         };
+
+        // listen for drop event on the drop-zone
         this.ondrop = function(event){
+            // prevent default behaviour: in this case opening a new tab with the file
             event.preventDefault();
+            // add picked class to the drop-zone for possible styling
             this.classList.add('picked');
+            // set files of input to the dropped files
             input.files = event.dataTransfer.files;
+            // change text of the drop-zone
             text.innerHTML = `${input.files.length} Files dropped`;
+            // define custom 'filesdropped' event with its files as content
             var filesDroppedEvent = new CustomEvent('filesdropped',{
                 detail: {
                     files: input.files,
@@ -320,6 +336,7 @@ class DropZone extends HTMLElement{
                 composed: true,
                 cancelable: true
             });
+            // raise event
             this.dispatchEvent(filesDroppedEvent);
             return false;
         };
@@ -330,9 +347,13 @@ class DropZone extends HTMLElement{
         input.setAttribute('type','file');
         input.setAttribute('multiple','multiple');
 
+        // addEventListener on the hidden file-input to listen for changes
         input.addEventListener('change',(e) => {
+            // add class to drop-zone for possible styling
             this.classList.add('picked');
+            // change text of drop-zone
             text.innerHTML = `${input.files.length} Files dropped`;
+            // define custom 'filesdropped' event with its files as content
             var filesDroppedEvent = new CustomEvent('filesdropped',{
                 detail: {
                     files: input.files,
@@ -341,6 +362,7 @@ class DropZone extends HTMLElement{
                 composed: true,
                 cancelable: true
             });
+            // raise event
             this.dispatchEvent(filesDroppedEvent);
             return false;
         });
@@ -380,6 +402,8 @@ class CustomButton extends HTMLElement{
         var shadow = this.attachShadow({mode: 'open'});
         var style = document.createElement('style');
         var type = "default";
+
+        // get button type
         if(this.getAttribute('type')) type = this.getAttribute('type');
 
         if(type === "raised"){
@@ -431,6 +455,15 @@ class Navigation extends HTMLElement{
         var shadow = this.attachShadow({mode:'open'});
         var style = document.createElement('style');
 
+        var bgColor = "#505050";
+        var navColor = "#FFF";
+        var navHoverColor = "#CCC";
+        var navActiveIconColor = "#505050";
+        if(this.getAttribute('bg-color')) bgColor = this.getAttribute('bg-color');
+        if(this.getAttribute('nav-color')) navColor = this.getAttribute('nav-color');
+        if(this.getAttribute('nav-hover-color')) navHoverColor = this.getAttribute('nav-hover-color');
+        if(this.getAttribute('nav-active-icon-color')) navActiveIconColor = this.getAttribute('nav-active-icon-color');
+
         var wrapper = document.createElement('div');
         wrapper.setAttribute('part','wrapper');
         wrapper.setAttribute('class','wrapper');
@@ -450,17 +483,6 @@ class Navigation extends HTMLElement{
             var newLi = document.createElement('li');
             newLi.setAttribute('part','nav-item');
             newLi.setAttribute('class','nav-item');
-            var linkClickedEvent = new CustomEvent('linkclicked',{
-                detail: {
-                    target: newLi,
-                },
-                bubbles: false,
-                composed: true,
-                cancelable: true
-            });
-            newLi.addEventListener('click',() => {
-                this.dispatchEvent(linkClickedEvent);
-            });
             if(liElement.classList.contains('active')) newLi.classList.add('active');
 
             ul.appendChild(newLi);
@@ -468,7 +490,6 @@ class Navigation extends HTMLElement{
                 var dropDownElement = document.createElement('ul');
                 dropDownElement.setAttribute('class','list-dropdown');
                 dropDownElement.setAttribute('part','list-dropdown');
-
                 newLi.appendChild(dropDownElement);
 
                 for(var element of dropDown.children){
@@ -476,10 +497,6 @@ class Navigation extends HTMLElement{
                     dropDownLiElement.setAttribute('class','list-dropdown-item');
                     dropDownLiElement.classList.add('list-item');
                     dropDownLiElement.setAttribute('part','list-dropdown-item');
-
-                    dropDownLiElement.addEventListener('click',() => {
-                        this.dispatchEvent(linkClickedEvent);
-                    });
 
                     var a = element.children[0];
                     var icon = element.children[1];
@@ -491,11 +508,13 @@ class Navigation extends HTMLElement{
                     var newIcon = document.createElement('span');
                     newIcon.setAttribute('class','icon');
                     newIcon.setAttribute('part','icon');
+                    // set icon
                     newIcon.innerHTML = icon.innerHTML;
 
                     var newText = document.createElement('span');
                     newText.setAttribute('class','text');
                     newText.setAttribute('part','text');
+                    // set text
                     newText.innerHTML = text.innerHTML;
 
                     dropDownElement.appendChild(dropDownLiElement);
@@ -524,31 +543,46 @@ class Navigation extends HTMLElement{
             counter++;
         }
 
+        // get index of current active navigation element
         this.getActiveIndex = () => {
             var child = document.querySelector(".list.active");
+            // get parent of list element
             var parent = child.parentNode;
             // The equivalent of parent.children.indexOf(child)
             var index = Array.prototype.indexOf.call(parent.children, child);
             return index;
         };
 
+        // get index of navigation element by page name
         this.getPageIndex = (name) => {
+            // get all list elements
             var pages = ul.children;
             for(var page of pages){
+                // ! EVERY LINK SHOULD HAVE ITS PAGE NAME AS A CLASS !
+                // check if classList of the current element contains the page name
                 if(page.classList.contains(name)){
+                    // get parent of list element
                     var parent = page.parentNode;
+                    // use indexOf to get index of child element in parent
                     var index = Array.prototype.indexOf.call(parent.children, page);
                     return index;
                 }
             }
         };
 
+        // sets the current active navigation element by index
         this.setPageIndex = (index) => {
+            // get all list elements
             var pages = ul.children;
+            // remove previous active classes
             for(var page of pages) if(page.classList.contains('active')) page.classList.remove('active');
+            // add active class to page with given index
             pages[index].classList.add('active');
         }
 
+        // one list element is 70px wide and 70px high
+        // a navigation with 4 elements = width = (70 * 4) + 50 = 330px
+        // 50 extra pixels to have some distance from the corners of the navigation
         var width = 50 + (this.children.length * 70);
         this.style.width = width + 'px';
         this.style.height = '70px';
@@ -556,8 +590,11 @@ class Navigation extends HTMLElement{
         this.style.justifyContent = 'center';
         this.style.alignItems = 'center';
         
+        // one list element is 70px wide and 70px high
+        // a navigation with 4 elements = ulWidth = 70 * 4 = 280px
         var ulWidth = 70*this.children.length;
-        style.innerHTML = '.wrapper{width: 100%;height: 100%;z-index: 10;background: #505050;position: relative;display: flex; justify-content: center; align-items: center; border-top-left-radius: 8px; border-top-right-radius: 8px; box-shadow: 0 0 16px 2px rgba(0,0,0,.3);}';
+
+        style.innerHTML = '.wrapper{width: 100%;height: 100%;z-index: 10;background: '+bgColor+';position: relative;display: flex; justify-content: center; align-items: center; border-top-left-radius: 8px; border-top-right-radius: 8px; box-shadow: 0 0 16px 2px rgba(0,0,0,.3);}';
         style.innerHTML += '.ul{display: flex;width: '+ulWidth+'px;height: 100%;padding: 0;margin:0;}';
         style.innerHTML += '.ul .nav-item{list-style: none;position: relative;cursor: pointer;z-index: 1;width: 70px !important;height: 70px !important;}';
         style.innerHTML += '.ul .nav-item .list-dropdown{opacity: 0;pointer-events: none;padding: 0;height: fit-content;width: 70px;display: flex;justify-content: flex-end;align-items: center;flex-direction: column;position: absolute;bottom: calc(100%);padding-bottom: 10px;right: 0;left: 0;transition: all .4s ease;}';
@@ -565,25 +602,25 @@ class Navigation extends HTMLElement{
         style.innerHTML += '.ul .nav-item.active .list-dropdown{padding-bottom: 45px !important;}';
         style.innerHTML += '.ul .nav-item.active:hover .list-dropdown{pointer-events: all;}';
         style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item:last-child{margin-bottom: 0 !important;}';
-        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item{list-style: none;opacity: 0;pointer-events: none;cursor: pointer;width: 55px;height: 55px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 32px;margin-bottom: 10px;color: white !important;background-color: #606060;position: relative;box-shadow: 0 0 16px 3px rgba(0,0,0,.2);transition: all .4s ease;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item{list-style: none;opacity: 0;pointer-events: none;cursor: pointer;width: 55px;height: 55px;border-radius: 50%;display: flex;justify-content: center;align-items: center;font-size: 32px;margin-bottom: 10px;color: '+navActiveIconColor+' !important;background-color: '+bgColor+';position: relative;box-shadow: 0 0 16px 3px rgba(0,0,0,.2);transition: all .4s ease;}';
         style.innerHTML += '.ul .nav-item:hover .list-dropdown .list-dropdown-item{opacity: 1;pointer-events: all;}';
-        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item.active{background-color: yellowgreen;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item.active{background-color: '+navHoverColor+';}';
         style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item .nav-link{display: none;}';
         style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item.show{opacity: 1;transform: scale(1);pointer-events: all;}';
-        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item:hover{background-color: green;color: white;}';
-        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item:hover .text{background-color: green !important;color: white;}';
-        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item.active .text{background-color: yellowgreen;}';
-        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item .text{position: absolute;width: fit-content;width: -moz-fit-content;background-color: #606060;white-space: nowrap;box-shadow: 0 0 16px 3px rgba(0,0,0,.2);word-break: keep-all;border-radius: 6px;padding: 4px;font-size: 14px;left: calc(100% + 10px);color: white;top: 50%;transform: translateY(-50%);transition: all .4s ease;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item:hover{background-color: '+navHoverColor+';color: white;}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item:hover .text{background-color: '+navHoverColor+' !important;color: '+navActiveIconColor+';}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item.active .text{background-color: '+navHoverColor+';}';
+        style.innerHTML += '.ul .nav-item .list-dropdown .list-dropdown-item .text{position: absolute;width: fit-content;width: -moz-fit-content;background-color: '+bgColor+';white-space: nowrap;box-shadow: 0 0 16px 3px rgba(0,0,0,.2);word-break: keep-all;border-radius: 6px;padding: 4px;font-size: 14px;left: calc(100% + 10px);color: '+navActiveIconColor+';top: 50%;transform: translateY(-50%);transition: all .4s ease;}';
         style.innerHTML += '.ul .nav-item .nav-link{pointer-events: none;text-decoration: none;position: relative;display: flex;justify-content: center;align-items: center;flex-direction: column;width: 100%;text-align: center;font-weight: 500;}';
         style.innerHTML += '.ul .nav-item .nav-link .icon i{line-height: 70px;}';
-        style.innerHTML += '.ul .nav-item:not(.active):hover .nav-link .icon,.ul .nav-item:not(.active):hover .nav-link .text{color: green;}';
-        style.innerHTML += '.ul .nav-item .nav-link .icon{position: relative;display: block;font-size: 1.5em;text-align: center;transition: transform .4s ease;color: yellowgreen;}';
-        style.innerHTML += '.ul .nav-item.active .nav-link .icon{transform: translateY(-40px);color: white !important;}';
-        style.innerHTML += '.ul .nav-item .nav-link .text{position: absolute;color: yellowgreen;font-weight: 400;font-size: 0.75em;letter-spacing: 0.05em;transition: transform .4s ease;opacity: 0;transform: translateY(30px);}';
+        style.innerHTML += '.ul .nav-item:not(.active):hover .nav-link .icon,.ul .nav-item:not(.active):hover .nav-link .text{color: '+navHoverColor+';}';
+        style.innerHTML += '.ul .nav-item .nav-link .icon{position: relative;display: block;font-size: 1.5em;text-align: center;transition: transform .4s ease;color: '+navColor+';}';
+        style.innerHTML += '.ul .nav-item.active .nav-link .icon{transform: translateY(-40px);color: '+navActiveIconColor+' !important;}';
+        style.innerHTML += '.ul .nav-item .nav-link .text{position: absolute;color: '+navColor+';font-weight: 400;font-size: 0.75em;letter-spacing: 0.05em;transition: transform .4s ease;opacity: 0;transform: translateY(30px);}';
         style.innerHTML += '.ul .nav-item.active .nav-link .text{opacity: 1;transform: translateY(10px);}';
         style.innerHTML += '.ul .nav-item .nav-link{height: 100%; transition: all .4s ease;}';
 
-        style.innerHTML += '.indicator{position: absolute;top: -55%;border-radius: 50%;width: 58px;height: 58px;background: yellowgreen;border: 6px solid transparent;}';
+        style.innerHTML += '.indicator{position: absolute;top: -55%;border-radius: 50%;width: 58px;height: 58px;background: '+navColor+';border: 6px solid transparent;}';
         style.innerHTML += '.indicator::before{content: "";position: absolute;top: 50%;left: -22px;width: 20px;height: 20px;background: transparent;border-top-right-radius: 20px;box-shadow: 0px -10px 0 0 transparent;}';
         style.innerHTML += '.indicator::after{content: "";position: absolute;top: 50%;right: -22px;width: 20px;height: 20px;background: transparent;border-top-left-radius: 20px;box-shadow: 0px -10px 0 0 transparent;}';
         
@@ -601,6 +638,7 @@ class Navigation extends HTMLElement{
 
         ul.appendChild(indicator);
 
+        // add boxicon css sheet for icons
         var sheet = document.createElement('link');
         sheet.setAttribute('rel','stylesheet');
         sheet.setAttribute('type','text/css');
@@ -610,6 +648,61 @@ class Navigation extends HTMLElement{
         shadow.appendChild(style);
         shadow.appendChild(wrapper);
         wrapper.appendChild(ul);
+
+        // Convert HTMLCollection of the list items to Array in order to make the forEach work
+        var liChildren = [].slice.call(ul.children);
+
+        // ! IMPORTANT !  must use forEach else addEventListener always returns value of the last added
+        liChildren.forEach((value,index)=>{
+            // leave out the indicator
+            if(index < liChildren.length - 1){
+                // Convert HTMLCollection of the dropdown list items to Array in order to make the forEach work
+                var dropDownLiChildren = [].slice.call(this.shadowRoot.querySelectorAll('.list-dropdown-item'));
+                // iterate dropdown items
+                dropDownLiChildren.forEach((dropDownLi) => {
+                    // addEventListener to dropdown items
+                    dropDownLi.addEventListener('click',(event) => {
+                        event.stopPropagation();
+                        // Define Event for dropdown-clicked
+                        var dropDownLinkClickedEvent = new CustomEvent('dropdownlinkclicked',{
+                            detail: {
+                                // add target, all list-elements and the current active element to detail of the custom event
+                                target: dropDownLi,
+                                // .slice(0,7) to leave out the indicator
+                                // join both normal list elements and dropdown list elements to one array
+                                allElements: (liChildren.slice(0,7).concat(dropDownLiChildren)),
+                                currentActive: this.shadowRoot.querySelector('.nav-item.active')
+                            },
+                            bubbles: false,
+                            composed: true,
+                            cancelable: true
+                        });
+                        // raise event
+                        this.dispatchEvent(dropDownLinkClickedEvent);
+                    });
+                });
+                // addEventListener for list item clicked
+                value.addEventListener('click',(event) => {
+                    event.stopPropagation();
+                    // Define Event for list item clicked
+                    var linkClickedEvent = new CustomEvent('linkclicked',{
+                        detail: {
+                            // add target, all list-elements and the current active element to detail of the custom event
+                            target: value,
+                            // .slice(0,7) to leave out the indicator
+                                // join both normal list elements and dropdown list elements to one array
+                            allElements: (liChildren.slice(0,7).concat(dropDownLiChildren)),
+                            currentActive: this.shadowRoot.querySelector('.nav-item.active')
+                        },
+                        bubbles: false,
+                        composed: true,
+                        cancelable: true
+                    });
+                    // raise event
+                    this.dispatchEvent(linkClickedEvent);
+                });
+            }
+        });
     }
 }
 
